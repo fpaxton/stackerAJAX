@@ -55,6 +55,7 @@ var showAnswerers = function(answerers) {
 	var displayName = result.find('.display-name a');
 	displayName.attr('href', answerers.user.link);
 	displayName.text(answerers.user.display_name);
+	$('.display-name').addClass('truncate');
 
 	var profileImage = result.find('.profile-image img');
 	profileImage.attr('src', answerers.user.profile_image);
