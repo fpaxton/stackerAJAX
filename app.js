@@ -57,8 +57,10 @@ var showAnswerers = function(answerers) {
 	displayName.text(answerers.user.display_name);
 
 	var profileImage = result.find('.profile-image img');
-	//profileImage.attr('href', answerers.user.link);
 	profileImage.attr('src', answerers.user.profile_image);
+
+	var postCount = result.find('.post-count');
+	postCount.text(answerers.post_count);
 
 	var reputationNum = result.find('.reputation');
 	reputationNum.text(answerers.user.reputation);
