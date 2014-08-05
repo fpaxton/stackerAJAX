@@ -38,17 +38,30 @@ var showQuestion = function(question) {
 
 	// set some properties related to asker
 	var asker = result.find('.asker');
-	if (question.owner) {
-		asker.html('<p>Name: <a target="_blank" href=http://stackoverflow.com/users/' 
-			+ question.owner.user_id + ' >' + question.owner.display_name +'</a>'
-			+ '</p>' +'<p>Reputation: ' + question.owner.reputation + '</p>'
-		);
-	} else {
-		asker.html('<p>Name: <a target="_blank" href=http://stackoverflow.com/users/' 
-			+ question.user.user_id + ' >' + question.user.display_name +'</a>'
-			+ '</p>' +'<p>Reputation: ' + question.user.reputation + '</p>'
-		);
-	}
+	asker.html('<p>Name: <a target="_blank" href=http://stackoverflow.com/users/' 
+		+ question.owner.user_id + ' >' + question.owner.display_name +'</a>'
+		+ '</p>' +'<p>Reputation: ' + question.owner.reputation + '</p>'
+	);
+	return result;
+};
+
+// this function takes the tag_score object returned by StackOverflow 
+// and creates new result to be appended to DOM
+var showAnswerers = function(answerers) {
+	// clone our result template code
+	var result = $('.templates .answerer').clone();
+
+	//set the display_name property in result
+	var displayName = result.find('.display-name a');
+	displayName.attr('href', answerers.user.link);
+	displayName.text(answerers.user.display_name);
+
+	var profileImage = result.find('.profile-image img');
+	//profileImage.attr('href', answerers.user.link);
+	profileImage.attr('src', answerers.user.profile_image);
+
+	var reputationNum = result.find('.reputation');
+	reputationNum.text(answerers.user.reputation);
 
 	return result;
 };
@@ -116,7 +129,7 @@ var getTopAnswerers = function(answerers) {
 		var searchResults = showSearchResults(request.tag, result.items.length);
 		$('.search-results').html(searchResults);
 		$.each(result.items, function(i, item) {
-			var question = showQuestion(item);
+			var question = showAnswerers(item);
 			$('.results').append(question);
 		});
 	}).fail(function(jqXHR, error, errorThrown){
